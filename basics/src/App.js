@@ -13,6 +13,7 @@ class App extends Component {
 
         this.state = {
             isLoading: true,
+            tokenLoaded: false,
             settings: {
                 text: "",
                 token: "",
@@ -23,6 +24,8 @@ class App extends Component {
         };
 
         this.tokenService = new TokenService();
+
+        this.handleInputChange = this.handleInputChange.bind(this);
     }
 
     sendIt() {
@@ -33,8 +36,17 @@ class App extends Component {
         this.tokenService.getToken().then(token => {
             this.setState(prevState => ({
                 isLoading: !prevState.isLoading,
-                token: token
+                token: token,
+                tokenLoaded: !prevState.tokenLoaded
             }));
+
+
+        });
+    }
+
+    handleInputChange(value) {
+        this.setState({
+            settings: {text: value}
         });
     }
 
@@ -54,7 +66,11 @@ class App extends Component {
                         </div>
                     </div>
 
-                    <TranslationForm test={new Date()} isLoading={this.state.isLoading} sendIt={this.sendIt}/>
+                    <TranslationForm test={new Date()}
+                                     isLoading={this.state.isLoading}
+                                     sendIt={this.sendIt}
+                                     settings={this.state.settings}
+                                     onTextChange={this.handleInputChange}/>
 
                 </div>
 

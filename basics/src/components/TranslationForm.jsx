@@ -1,20 +1,25 @@
 import React from 'react';
 import './../assets/css/TranslationForm.css';
+import LanguageSelect from './../components/LanguagesSelect'
 
 
 class TranslationForm extends React.Component {
 
     constructor(props) {
         super(props);
-        this.props = props;
         this.state = {};
 
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleTextChange = this.handleTextChange.bind(this);
     }
 
-    handleSubmit(e){
+    handleSubmit(e) {
         e.preventDefault();
         this.props.sendIt();
+    }
+
+    handleTextChange(e) {
+        this.props.onTextChange(e.target.value);
     }
 
     render() {
@@ -26,24 +31,16 @@ class TranslationForm extends React.Component {
                         <div className="form-group">
                             <label htmlFor="text-to-translate">Text to translate</label>
                             <input type="text" className="form-control" id="text-to-translate"
-                                   placeholder="Enter text to translate"></input>
+                                   placeholder="Enter text to translate" value={this.props.settings.text}
+                                   onChange={this.handleTextChange}></input>
                         </div>
 
-                        <div className="form-group">
-                            <label htmlFor="source-language">From</label>
-                            <select className="form-control" id="source-language">
-                                <option></option>
-                            </select>
-                        </div>
+                        <LanguageSelect label="From" type="source"/>
 
-                        <div className="form-group">
-                            <label htmlFor="target-language">To</label>
-                            <select className="form-control" id="target-language">
-                                <option></option>
-                            </select>
-                        </div>
+                        <LanguageSelect label="To" type="target"/>
 
-                        <button className="btn btn-default" id="translate-btn" onClick={this.handleSubmit}>Translate</button>
+                        <button className="btn btn-default" id="translate-btn" onClick={this.handleSubmit}>Translate
+                        </button>
                     </form>
                 </div>
 
