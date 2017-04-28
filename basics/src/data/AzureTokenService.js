@@ -5,7 +5,10 @@ function AzureTokenService(configuration) {
     this.Token = {
         token: "",
         duration: 600000,
-        timeStamp: 0
+        timeStamp: 0,
+        isValid: function(){
+            return (new Date().getTime() - this.timeStamp) < this.duration;
+        }
     };
 
     var DefaultConfiguration = {
@@ -19,7 +22,7 @@ function AzureTokenService(configuration) {
 }
 
 AzureTokenService.prototype.getToken = function () {
-    if (this.isTokenValid()) {
+    if (this.Token.isValid()) {
         return this.Token.token;
     }
 
@@ -40,8 +43,8 @@ AzureTokenService.prototype.getTokenAsync = function () {
     });
 };
 
-AzureTokenService.prototype.isTokenValid = function () {
-    return (new Date().getTime() - this.Token.timeStamp) < this.Token.duration;
+AzureTokenService.prototype.hasValidToken = function () {
+    return this.Token.isValid();
 };
 
 AzureTokenService.prototype.setToken = function (data) {
