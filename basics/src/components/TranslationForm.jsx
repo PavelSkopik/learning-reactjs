@@ -1,6 +1,6 @@
 import React from 'react';
 import './../assets/css/TranslationForm.css';
-import LanguageSelect from './../components/LanguagesSelect'
+import Select from './../components/Select'
 
 
 class TranslationForm extends React.Component {
@@ -35,9 +35,9 @@ class TranslationForm extends React.Component {
                                    onChange={this.handleTextChange}></input>
                         </div>
 
-                        <LanguageSelect label="From" type="source"/>
+                        <Select label="From" type="source"/>
 
-                        <LanguageSelect label="To" type="target"/>
+                        <Select label="To" type="target"/>
 
                         <button className="btn btn-default" id="translate-btn" onClick={this.handleSubmit}>Translate
                         </button>

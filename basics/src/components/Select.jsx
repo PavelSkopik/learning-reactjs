@@ -1,6 +1,6 @@
 import React from 'react';
 
-class LanguagesSelect extends React.Component {
+class Select extends React.Component {
 
     constructor(props) {
         super(props);
@@ -28,4 +28,4 @@ class LanguagesSelect extends React.Component {
 
 }
 
-export default LanguagesSelect;
+export default Select;
