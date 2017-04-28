@@ -10,16 +10,27 @@ class App extends Component {
 
     constructor(props) {
         super(props);
+
         this.state = {
             isLoading: true,
-            token: ""
+            settings: {
+                text: "",
+                token: "",
+                from: "",
+                to: ""
+            },
+            translatedText: ""
         };
 
         this.tokenService = new TokenService();
     }
 
+    sendIt() {
+        console.log("test");
+    }
+
     componentDidMount() {
-        this.tokenService.getToken().then(token =>{
+        this.tokenService.getToken().then(token => {
             this.setState(prevState => ({
                 isLoading: !prevState.isLoading,
                 token: token
@@ -43,7 +54,7 @@ class App extends Component {
                         </div>
                     </div>
 
-                    <TranslationForm test={new Date()} isLoading={this.state.isLoading}/>
+                    <TranslationForm test={new Date()} isLoading={this.state.isLoading} sendIt={this.sendIt}/>
 
                 </div>
 

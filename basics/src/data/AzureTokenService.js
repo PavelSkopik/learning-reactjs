@@ -26,7 +26,7 @@ AzureTokenService.prototype.getToken = function () {
     return this.getTokenAsync();
 };
 
-AzureTokenService.prototype.getTokenAsync = function(){
+AzureTokenService.prototype.getTokenAsync = function () {
     var that = this;
 
     return axios({
@@ -35,7 +35,6 @@ AzureTokenService.prototype.getTokenAsync = function(){
         headers: this.config.azureHeader
     }).then(response => {
         that.setToken(response);
-        return response;
     }).catch(error => {
         console.error(error);
     });

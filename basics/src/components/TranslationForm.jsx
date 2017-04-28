@@ -1,13 +1,20 @@
 import React from 'react';
 import './../assets/css/TranslationForm.css';
-import TokenService from './../data/AzureTokenService'
 
 
 class TranslationForm extends React.Component {
 
     constructor(props) {
         super(props);
+        this.props = props;
         this.state = {};
+
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    handleSubmit(e){
+        e.preventDefault();
+        this.props.sendIt();
     }
 
     render() {
@@ -36,7 +43,7 @@ class TranslationForm extends React.Component {
                             </select>
                         </div>
 
-                        <button className="btn btn-default" id="translate-btn" disabled>Translate</button>
+                        <button className="btn btn-default" id="translate-btn" onClick={this.handleSubmit}>Translate</button>
                     </form>
                 </div>
 

@@ -4,6 +4,7 @@ class LoadingCanvas extends React.Component {
 
     constructor(props) {
         super(props);
+        this.props = props;
     }
 
     shouldDisplay(){
@@ -22,7 +23,6 @@ class LoadingCanvas extends React.Component {
             </div>
         );
     }
-
 
 }
 
