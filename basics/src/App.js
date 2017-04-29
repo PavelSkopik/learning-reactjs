@@ -4,6 +4,7 @@ import './assets/vendor/boostrap/css/bootstrap.css';
 import './assets/css/App.css';
 import TranslationForm from './components/TranslationForm';
 import LoadingCanvas from './components/LoadingCanvas';
+import TranslationService from './data/TranslationService';
 import TokenService from './data/AzureTokenService';
 
 class App extends Component {
@@ -13,10 +14,9 @@ class App extends Component {
 
         this.state = {
             isLoading: true,
-            tokenLoaded: false,
+            languageCodes: [],
             settings: {
                 text: "",
-                token: "",
                 from: "",
                 to: ""
             },
@@ -24,6 +24,7 @@ class App extends Component {
         };
 
         this.tokenService = new TokenService();
+        this.translationService = new TranslationService();
 
         this.handleInputChange = this.handleInputChange.bind(this);
     }
@@ -33,14 +34,11 @@ class App extends Component {
     }
 
     componentDidMount() {
-        this.tokenService.getToken().then(token => {
+        this.translationService.getSupportedLanguages().then(response => {
             this.setState(prevState => ({
-                isLoading: !prevState.isLoading,
-                token: token,
-                tokenLoaded: !prevState.tokenLoaded
+                languageCodes: response,
+                isLoading: !prevState.isLoading
             }));
-
-
         });
     }
 
@@ -70,6 +68,7 @@ class App extends Component {
                                      isLoading={this.state.isLoading}
                                      sendIt={this.sendIt}
                                      settings={this.state.settings}
+                                     languageCodes={this.state.languageCodes}
                                      onTextChange={this.handleInputChange}/>
 
                 </div>

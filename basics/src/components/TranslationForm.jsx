@@ -35,7 +35,7 @@ class TranslationForm extends React.Component {
                                    onChange={this.handleTextChange}></input>
                         </div>
 
-                        <Select label="From" type="source"/>
+                        <Select label="From" type="source" languageCodes={this.props.languageCodes}/>
 
                         <Select label="To" type="target"/>
 

@@ -4,7 +4,6 @@ class Select extends React.Component {
 
     constructor(props) {
         super(props);
-
         this.handleSelectChange = this.handleSelectChange.bind(this);
     }
 
