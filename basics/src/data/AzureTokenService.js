@@ -26,11 +26,7 @@ function AzureTokenService(configuration) {
  * @returns {string} Token.
  */
 AzureTokenService.prototype.getToken = function () {
-    if (this.Token.isValid()) {
-        return this.Token.token;
-    }
-
-    return this.getTokenAsync();
+    return this.Token.token;
 };
 
 AzureTokenService.prototype.getTokenAsync = function () {

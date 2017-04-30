@@ -12,42 +12,61 @@ function TranslationService(configuration) {
     this.tokenService = new TokenService();
 }
 
-TranslationService.prototype.translate = function (text, from, to) {
-    var that = this;
-
-    return new Promise(function (resolve, reject) {
-        var processResponse = function (err, data) {
-            if (err) {
-                reject(Error(err.message));
-            } else {
-                resolve(data);
-            }
-        };
-
-        var getUrl = function (token) {
-            return that.configuration.translateResource.replace("{{token}}", token)
-                .replace("{{text}}", encodeURIComponent(text))
-                .replace("{{from}}", encodeURIComponent(from))
-                .replace("{{to}}", encodeURIComponent(to));
-        };
-
-        var token = that.tokenService.getToken();
-
-        jsonp(getUrl(token), {
-            param: "onComplete",
-            name: "processResponse"
-        }, processResponse);
-    });
-};
-
 /**
  * Sends a request to retrieve a list of supported language codes for translation. Returns a promise object that wraps
  * an HTTP request executed by the jsonp library.
  * @returns {Promise} Promise object.
  */
-TranslationService.prototype.getSupportedLanguages = function () {
+TranslationService.prototype.getSupportedLanguages = function(){
     var that = this;
+    var getUrl = function (token) {
+        return that.configuration.languagesResource.replace("{{token}}", encodeURIComponent(token));
+    };
 
+    return this.sendRequest(getUrl);
+};
+
+/**
+ *
+ * @param text
+ * @param from
+ * @param to
+ */
+TranslationService.prototype.translate = function (text, from, to) {
+    var that = this;
+    var getUrl = function (token) {
+        return that.configuration.translateResource.replace("{{token}}", token)
+            .replace("{{text}}", encodeURIComponent(text))
+            .replace("{{from}}", encodeURIComponent(from))
+            .replace("{{to}}", encodeURIComponent(to));
+    };
+
+    return this.sendRequest(getUrl);
+};
+
+/**
+ *
+ * @param getUrlCallBack
+ * @returns {*}
+ */
+TranslationService.prototype.sendRequest = function (getUrlCallBack) {
+    var token = this.tokenService.getToken();
+
+    if (token === "") {
+        return this.tokenService.getTokenAsync().then(token => {
+            return this.sendJsonpRequest(getUrlCallBack(token));
+        });
+    } else {
+        return this.sendJsonpRequest(getUrlCallBack(token));
+    }
+};
+
+/**
+ *
+ * @param url
+ * @returns {Promise}
+ */
+TranslationService.prototype.sendJsonpRequest = function (url) {
     return new Promise(function (resolve, reject) {
         var processResponse = function (err, data) {
             if (err) {
@@ -57,16 +76,10 @@ TranslationService.prototype.getSupportedLanguages = function () {
             }
         };
 
-        var getUrl = function (token) {
-            return that.configuration.languagesResource.replace("{{token}}", encodeURIComponent(token));
-        };
-
-        that.tokenService.getToken().then(token=> {
-            jsonp(getUrl(token), {
-                param: "onComplete",
-                name: "processResponse"
-            }, processResponse);
-        });
+        jsonp(url, {
+            param: "onComplete",
+            name: "processResponse"
+        }, processResponse);
     });
 };
 
