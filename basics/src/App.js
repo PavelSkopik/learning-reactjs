@@ -5,7 +5,6 @@ import './assets/css/App.css';
 import TranslationForm from './components/TranslationForm';
 import LoadingCanvas from './components/LoadingCanvas';
 import TranslationService from './data/TranslationService';
-import TokenService from './data/AzureTokenService';
 
 class App extends Component {
 
@@ -13,38 +12,17 @@ class App extends Component {
         super(props);
 
         this.state = {
-            isLoading: true,
-            languageCodes: [],
-            settings: {
-                text: "",
-                from: "",
-                to: ""
-            },
-            translatedText: ""
+            isLoading: true
         };
 
-        this.tokenService = new TokenService();
         this.translationService = new TranslationService();
 
-        this.handleInputChange = this.handleInputChange.bind(this);
+        this.handleLoadingChange = this.handleLoadingChange.bind(this);
     }
 
-    sendIt() {
-        console.log("test");
-    }
-
-    componentDidMount() {
-        this.translationService.getSupportedLanguages().then(response => {
-            this.setState(prevState => ({
-                languageCodes: response,
-                isLoading: !prevState.isLoading
-            }));
-        });
-    }
-
-    handleInputChange(value) {
+    handleLoadingChange(value) {
         this.setState({
-            settings: {text: value}
+            isLoading: value
         });
     }
 
@@ -64,12 +42,7 @@ class App extends Component {
                         </div>
                     </div>
 
-                    <TranslationForm test={new Date()}
-                                     isLoading={this.state.isLoading}
-                                     sendIt={this.sendIt}
-                                     settings={this.state.settings}
-                                     languageCodes={this.state.languageCodes}
-                                     onTextChange={this.handleInputChange}/>
+                    <TranslationForm onLoadingChange={this.handleLoadingChange}/>
 
                 </div>
 

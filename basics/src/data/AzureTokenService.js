@@ -6,7 +6,7 @@ function AzureTokenService(configuration) {
         token: "",
         duration: 600000,
         timeStamp: 0,
-        isValid: function(){
+        isValid: function () {
             return (new Date().getTime() - this.timeStamp) < this.duration;
         }
     };
@@ -21,6 +21,10 @@ function AzureTokenService(configuration) {
     this.config = (configuration === null || configuration === undefined) ? DefaultConfiguration : configuration
 }
 
+/**
+ * Retrieves an authentication token either from cache or from a web service.
+ * @returns {string} Token.
+ */
 AzureTokenService.prototype.getToken = function () {
     if (this.Token.isValid()) {
         return this.Token.token;
@@ -37,19 +41,27 @@ AzureTokenService.prototype.getTokenAsync = function () {
         url: this.config.url,
         headers: this.config.azureHeader
     }).then(response => {
-        that.setToken(response);
-        return response;
+        that.cacheToken(response.data);
+        return response.data;
     }).catch(error => {
         console.error(error);
     });
 };
 
+/**
+ * Determines whether a cached token is still valid.
+ * @returns {*} Boolean value.
+ */
 AzureTokenService.prototype.hasValidToken = function () {
     return this.Token.isValid();
 };
 
-AzureTokenService.prototype.setToken = function (data) {
-    this.Token.token = data;
+/**
+ * Caches authentication token.
+ * @param token Token to cache.
+ */
+AzureTokenService.prototype.cacheToken = function (token) {
+    this.Token.token = token;
     this.Token.timeStamp = new Date().getTime();
 };
 
