@@ -1,7 +1,9 @@
 import React from 'react';
 import './../assets/css/TranslationForm.css';
 import Select from './../components/Select'
+import Input from './../components/Input'
 import TranslationService from './../data/TranslationService';
+import TextArea from './../components/TextArea';
 
 
 class TranslationForm extends React.Component {
@@ -42,9 +44,9 @@ class TranslationForm extends React.Component {
         });
     }
 
-    handleTextChange(e) {
+    handleTextChange(value) {
         this.setState({
-            text: e.target.value
+            text: value
         })
     }
 
@@ -60,8 +62,6 @@ class TranslationForm extends React.Component {
                 to: value
             });
         }
-
-        console.log(this.state);
     }
 
     render() {
@@ -70,14 +70,11 @@ class TranslationForm extends React.Component {
                 <div className="col-sm-5 col-md-5 col-lg-4 col-md-offset-3 col-lg-offset-2">
                     <form className="form" onSubmit={this.handleSubmit}>
 
-                        <div className="form-group">
-                            <label htmlFor="text-to-translate">Text to translate</label>
-                            <input type="text"
-                                   className="form-control"
-                                   id="text-to-translate"
-                                   placeholder="Enter text to translate"
-                                   onChange={this.handleTextChange}></input>
-                        </div>
+                        <Input label="Text to translate"
+                               type="text"
+                               id="text-to-translate"
+                               placeHolder="Enter text to translate"
+                               onChange={this.handleTextChange}/>
 
                         <Select label="From"
                                 type="source"
@@ -96,12 +93,11 @@ class TranslationForm extends React.Component {
 
                 <div className="col-sm-4 col-md-4 col-lg-3">
                     <form className="form">
-                        <div className="form-group">
-                            <label htmlFor="source-language">Translated text</label>
-                            <textarea className="form-control"
-                                      id="translated-text"
-                                      value={this.state.translatedText}></textarea>
-                        </div>
+                        <TextArea label="Translated text"
+                                  id="translated-text"
+                                  value={this.state.translatedText}
+                                  readOnly={true}/>
+
                     </form>
 
                     <div>

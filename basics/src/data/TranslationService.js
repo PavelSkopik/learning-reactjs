@@ -1,4 +1,3 @@
-import axios from "axios";
 import jsonp from "jsonp";
 import TokenService from './AzureTokenService';
 
