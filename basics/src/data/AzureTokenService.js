@@ -8,6 +8,9 @@ function AzureTokenService(configuration) {
         timeStamp: 0,
         isValid: function () {
             return (new Date().getTime() - this.timeStamp) < this.duration;
+        },
+        getValue: function () {
+            return this.isValid() ? this.token : "";
         }
     };
 
@@ -22,13 +25,17 @@ function AzureTokenService(configuration) {
 }
 
 /**
- * Retrieves an authentication token either from cache or from a web service.
+ * Retrieves an authentication token.
  * @returns {string} Token.
  */
 AzureTokenService.prototype.getToken = function () {
-    return this.Token.token;
+    return this.Token.getValue();
 };
 
+/**
+ * Retrieves authentication token from a web service.
+ * @returns {axios} Axios object.
+ */
 AzureTokenService.prototype.getTokenAsync = function () {
     var that = this;
 

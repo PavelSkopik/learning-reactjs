@@ -4,7 +4,6 @@ import './assets/vendor/boostrap/css/bootstrap.css';
 import './assets/css/App.css';
 import TranslationForm from './components/TranslationForm';
 import LoadingCanvas from './components/LoadingCanvas';
-import TranslationService from './data/TranslationService';
 
 class App extends Component {
 
@@ -14,8 +13,6 @@ class App extends Component {
         this.state = {
             isLoading: true
         };
-
-        this.translationService = new TranslationService();
 
         this.handleLoadingChange = this.handleLoadingChange.bind(this);
     }

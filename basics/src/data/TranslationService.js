@@ -17,7 +17,7 @@ function TranslationService(configuration) {
  * an HTTP request executed by the jsonp library.
  * @returns {Promise} Promise object.
  */
-TranslationService.prototype.getSupportedLanguages = function(){
+TranslationService.prototype.getSupportedLanguages = function () {
     var that = this;
     var getUrl = function (token) {
         return that.configuration.languagesResource.replace("{{token}}", encodeURIComponent(token));
@@ -27,10 +27,10 @@ TranslationService.prototype.getSupportedLanguages = function(){
 };
 
 /**
- *
- * @param text
- * @param from
- * @param to
+ * Translates text from source language to target language.
+ * @param text Text to translate.
+ * @param from Source language code.
+ * @param to Target language code.
  */
 TranslationService.prototype.translate = function (text, from, to) {
     var that = this;
@@ -45,9 +45,9 @@ TranslationService.prototype.translate = function (text, from, to) {
 };
 
 /**
- *
- * @param getUrlCallBack
- * @returns {*}
+ * Sends an HTTP request and executes a URL creation callback.
+ * @param getUrlCallBack Callback function.
+ * @returns {Promise} Promise object.
  */
 TranslationService.prototype.sendRequest = function (getUrlCallBack) {
     var token = this.tokenService.getToken();
@@ -62,9 +62,9 @@ TranslationService.prototype.sendRequest = function (getUrlCallBack) {
 };
 
 /**
- *
- * @param url
- * @returns {Promise}
+ * Executes JSONP request and wraps the execution in a Promise object.
+ * @param url URL to call.
+ * @returns {Promise} Promise object.
  */
 TranslationService.prototype.sendJsonpRequest = function (url) {
     return new Promise(function (resolve, reject) {
