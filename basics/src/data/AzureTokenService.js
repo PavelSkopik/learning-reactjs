@@ -1,5 +1,11 @@
 import axios from 'axios';
 
+/**
+ * Service to retrieve authentication token from Microsoft Azure. After a token is retrieved it is cached for
+ * 10 minutes.
+ * @param configuration Configuration.
+ * @constructor
+ */
 function AzureTokenService(configuration) {
 
     this.Token = {
